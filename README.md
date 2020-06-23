@@ -1,8 +1,8 @@
 <p align="center">
-  <img alt="Repository Template" title="Repository Template" src="./assets/logo.png" width="128">
+  <img alt="Job Alert" title="Job Alert" src="./assets/logo.png" width="128">
 </p>
 
-<h1 align="center">Repository Template</h1>
+<h1 align="center">Job Alert</h1>
 
 <p align="center">
   <a href="#overview">Overview</a> |
