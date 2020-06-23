@@ -11,29 +11,18 @@
 
 ## Overview
 
-anyone with access to the repository can generate a new repository with the same directory structure and files as your default branch.
+여러 사이트의 정보를 모아 메일 또는 슬랙으로 알려주는 채용 알림 서비스
 
 ## Features
 
-- Git Attribute File
-- Git Ignore File
-- Changelog
-- Contributor Covenant Code of Conduct
-- Contributing Guidelines
-- License File
-- README File
-- GitHub Template
-	- Issue and Feature request Templates
-	- Pull Request Template
-- Github Bot Configuration
+- [ ] 채용 정보 크롤링
+- [ ] 신규 채용 등록 시 알림
+- [ ] 태그 검색 알림 등록
+- [ ] 이메일 전송
+- [ ] 슬랙 전송
 
-## Bots
+## TODO Sites
 
-### TODO Bot
-
-See [its page](https://probot.github.io/apps/todo/) for further configuration. This template sets two variables: autoAssign and exclude, which sets the user resposible for the push to be the assignee of the issue, and ignores the .gitattributes file from issue opening. We suggest keeping this way.
-
-### Welcome Bot
-
-This bot are actually three bots into one. See the central [page](https://probot.github.io/apps/welcome/) for further configuration. There are three variables, each being the message posted by the bot: newIssueWelcomeComment, newPRWelcomeComment, and firstPRMergeComment. You may customize these messages if you wish.
+- [ ] [로켓펀치](https://www.rocketpunch.com/)
+- [ ] [원티드](https://www.wanted.co.kr/)
 
