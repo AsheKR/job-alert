@@ -1,3 +1,4 @@
+sources/targets/*.txt
 
 # Created by https://www.toptal.com/developers/gitignore/api/osx,macos,linux,python,django,windows,jetbrains+all,jupyternotebooks,virtualenv
 # Edit at https://www.toptal.com/developers/gitignore?templates=osx,macos,linux,python,django,windows,jetbrains+all,jupyternotebooks,virtualenv
