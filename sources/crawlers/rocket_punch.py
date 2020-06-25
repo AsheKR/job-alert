@@ -11,17 +11,17 @@ class RocketPunchCrawler:
     BASE_TARGET_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'targets')
     TARGET_FILE = 'latest_rocket_punch_id.txt'
 
-    def __init__(self, query_string: List[str] = None):
+    def __init__(self, keywords: List[str] = None):
         # inner Controlled Data
         self._file_data = []
         self._companies = []
         self._keywords = []
 
-        if query_string is None:
-            query_string = []
+        if keywords is None:
+            keywords = []
 
         self.query_string = [('sort', 'recent')]
-        self.extend_query_string(query_string)
+        self.extend_keywords(keywords)
 
     @property
     def keywords(self) -> List[str]:
@@ -49,14 +49,13 @@ class RocketPunchCrawler:
 
         return self._companies
 
-    def extend_query_string(self, query_string: List[str]) -> None:
-        self._keywords.extend(query_string)
-        self.query_string.extend([('keywords', keyword) for keyword in query_string])
+    def extend_keywords(self, keywords: List[str]) -> None:
+        self._keywords.extend(keywords)
+        self.query_string.extend([('keywords', keyword) for keyword in keywords])
 
     def get_new_companies(self) -> List[dict]:
         latest_company_id_from_file = self.get_latest_company_id_from_file()
         latest_company_id_from_api = self.get_latest_company_id_from_api()
-        print(latest_company_id_from_file, latest_company_id_from_api)
 
         # 첫 크롤링 시
         if not latest_company_id_from_file:
