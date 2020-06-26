@@ -170,7 +170,7 @@ class RocketPunchCrawler:
         return {
             'id': company_id,
             'url': cls.BASE_URL + company_url,
-            'logo': logo_url,
+            'logo_url': logo_url,
             'name': name,
             'sub_name': sub_name,
             'thumb_up_count': thumb_up_count,

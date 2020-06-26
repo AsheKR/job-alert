@@ -20,7 +20,7 @@ class CompanySchema(Schema):
     sub_name = fields.String()
     thumb_up_count = fields.Number()
 
-    logo = fields.URL()
+    logo_url = fields.URL()
     url = fields.URL(required=True)
 
     job_details = fields.List(fields.Nested(JobDetailSchema))
