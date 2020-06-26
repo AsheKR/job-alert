@@ -26,11 +26,11 @@ SENDGRID_API_KEY                        n/a                                     
 - [ ] 채용 정보 크롤링
 - [ ] 신규 채용 등록 시 알림
 - [ ] 태그 검색 알림 등록
-- [ ] 이메일 전송
+- [x] 이메일 전송
 - [ ] 슬랙 전송
 
 ## TODO Sites
 
-- [ ] [로켓펀치](https://www.rocketpunch.com/)
+- [x] [로켓펀치](https://www.rocketpunch.com/)
 - [ ] [원티드](https://www.wanted.co.kr/)
 
