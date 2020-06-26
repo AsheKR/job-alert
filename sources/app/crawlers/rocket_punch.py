@@ -154,7 +154,7 @@ class RocketPunchCrawler:
 
         sub_name = getattr(soup_company.select_one('.content > .company-name > a > h4.header.name > small'), 'text', '')
         thumb_up_count = getattr(soup_company.select_one('.content > .company-name > a.reference-count > span.count'),
-                                 'text', '')
+                                 'text', 0) or 0
 
         description = getattr(soup_company.select_one('.content > .description'), 'text', '')
 
