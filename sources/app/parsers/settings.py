@@ -3,7 +3,7 @@ import os
 import yaml
 
 
-class ParseSettings:
+class SettingParser:
     BASE_TARGET_PATH = os.path.dirname((os.path.abspath(__file__)))
     TARGET_FILE = 'settings.yaml'
 
