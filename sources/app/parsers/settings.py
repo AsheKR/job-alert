@@ -4,7 +4,7 @@ import yaml
 
 
 class SettingParser:
-    BASE_TARGET_PATH = os.path.dirname((os.path.abspath(__file__)))
+    BASE_TARGET_PATH = os.path.dirname(os.path.dirname(os.path.dirname((os.path.abspath(__file__)))))
     TARGET_FILE = 'settings.yaml'
 
     def __init__(self):
@@ -16,7 +16,7 @@ class SettingParser:
             target_path = os.path.join(self.BASE_TARGET_PATH, self.TARGET_FILE)
 
             if not os.path.exists(target_path):
-                return {}
+                raise ValueError(f'{self.BASE_TARGET_PATH} 에 {self.TARGET_FILE} 파일이 존재하지 않습니다.')
 
             with open(target_path, 'r') as target_file:
                 self._config = yaml.load(target_file, Loader=yaml.SafeLoader)
