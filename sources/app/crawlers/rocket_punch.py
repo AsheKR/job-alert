@@ -70,7 +70,7 @@ class RocketPunchCrawler:
 
         for company in self.companies:
             # ID 가 동일한 것이 있을 때까지 신규 등록 공고.
-            if company.get('company_id') == latest_company_id_from_file:
+            if company.get('id') == latest_company_id_from_file:
                 break
             new_companies.append(company)
 
@@ -111,7 +111,7 @@ class RocketPunchCrawler:
                 f'크롤러로 가져온 결과가 존재하지 않습니다.'
             )
 
-        return self.companies[0].get('company_id')
+        return self.companies[0].get('id')
 
     def get_response(self) -> Response:
         response = requests.get(self.BASE_JOB_URL, params=self.query_string)
