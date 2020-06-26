@@ -10,6 +10,11 @@ class SendGrid:
             raise ValueError('SENDGRID_API_KEY 가 제공되지 않았습니다.')
         self.send_grid = sendgrid.SendGridAPIClient(api_key=os.environ.get('SENDGRID_API_KEY'))
 
+        if not from_email:
+            raise ValueError('from_email 이 제공되지 않았습니다.')
+        if not to_email:
+            raise ValueError('to_email 이 제공되지 않았습니다.')
+
         self.from_email = Email(from_email)
         self.to_email = To(to_email)
 
