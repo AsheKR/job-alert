@@ -7,7 +7,8 @@ from requests import Response
 
 
 class RocketPunchCrawler:
-    BASE_URL = 'https://www.rocketpunch.com/api/jobs/template'
+    BASE_URL = 'https://www.rocketpunch.com'
+    BASE_JOB_URL = BASE_URL + '/api/jobs/template'
     BASE_TARGET_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'targets')
     TARGET_FILE = 'latest_rocket_punch_id.txt'
 
@@ -113,7 +114,7 @@ class RocketPunchCrawler:
         return self.companies[0].get('company_id')
 
     def get_response(self) -> Response:
-        response = requests.get(self.BASE_URL, params=self.query_string)
+        response = requests.get(self.BASE_JOB_URL, params=self.query_string)
 
         if not response.status_code == 200:
             raise ValueError(
@@ -144,8 +145,8 @@ class RocketPunchCrawler:
 
         return companies
 
-    @staticmethod
-    def parse_company(soup_company: Tag) -> dict:
+    @classmethod
+    def parse_company(cls, soup_company: Tag) -> dict:
         company_id = soup_company.attrs.get('data-company_id')
         company_url = soup_company.select_one('.logo.image > a').attrs.get('href')
         logo_url = soup_company.select_one('.logo.image > a > .ui.logo > img.ui.image').attrs.get('src')
@@ -168,7 +169,7 @@ class RocketPunchCrawler:
 
         return {
             'id': company_id,
-            'company_url': company_url,
+            'url': cls.BASE_URL + company_url,
             'logo': logo_url,
             'name': name,
             'sub_name': sub_name,
@@ -178,8 +179,8 @@ class RocketPunchCrawler:
             'job_details': job_details,
         }
 
-    @staticmethod
-    def parse_job_detail(soup_job_detail: Tag) -> dict:
+    @classmethod
+    def parse_job_detail(cls, soup_job_detail: Tag) -> dict:
         job_detail_id = soup_job_detail.select_one('.job-title').attrs.get('href').split('/')[2]
         url = soup_job_detail.select_one('.job-title').attrs.get('href')
         title = soup_job_detail.select_one('.job-title').text
@@ -190,7 +191,7 @@ class RocketPunchCrawler:
 
         return {
             'id': job_detail_id,
-            'url': url,
+            'url': cls.BASE_URL + url,
             'title': title,
             'meta': [job_detail_date_meta_1, job_detail_date_meta_2],
         }
