@@ -167,7 +167,7 @@ class RocketPunchCrawler:
             job_details.append(RocketPunchCrawler.parse_job_detail(soup_job_detail))
 
         return {
-            'company_id': company_id,
+            'id': company_id,
             'company_url': company_url,
             'logo': logo_url,
             'name': name,
@@ -189,9 +189,8 @@ class RocketPunchCrawler:
         job_detail_date_meta_2 = getattr(soup_job_detail.select_one('.job-dates > span:nth-child(2)'), 'text', '').strip()
 
         return {
-            'job_detail_id': job_detail_id,
+            'id': job_detail_id,
             'url': url,
             'title': title,
-            'job_detail_date_meta_1': job_detail_date_meta_1,
-            'job_detail_date_meta_2': job_detail_date_meta_2,
+            'meta': [job_detail_date_meta_1, job_detail_date_meta_2],
         }
