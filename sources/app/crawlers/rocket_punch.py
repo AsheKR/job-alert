@@ -37,7 +37,7 @@ class RocketPunchCrawler:
                 return []
 
             with open(target_path, 'r') as target_file:
-                self._file_data = target_file.readlines()
+                self._file_data = target_file.read().split('\n')
 
         return self._file_data
 
