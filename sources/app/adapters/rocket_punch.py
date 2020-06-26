@@ -1,11 +1,5 @@
-import os
-import sys
-from pprint import pprint
 from typing import Union, List
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-from crawlers.rocket_punch import RocketPunchCrawler
 from schemas.company import CompanySchema
 
 
@@ -23,6 +17,5 @@ class RocketPunchAdapter:
                 schema = CompanySchema()
 
             self._aware_data = schema.load(self._data)
-            pprint(self._aware_data)
 
         return self._aware_data
