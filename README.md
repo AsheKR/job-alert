@@ -34,7 +34,7 @@
 
 ## TODO
 
-- [ ] HTML Template to [Jinja2](https://jinja.palletsprojects.com/en/2.11.x/)
+- [x] HTML Template to [Jinja2](https://jinja.palletsprojects.com/en/2.11.x/)
 - [ ] Exception 들을 모두 커스텀하여 만들고 싶습니다. 
 - [ ] 에러가 날 만한 곳은 모두 BaseException 으로 묶어놓고 로깅하여 사용하고 싶습니다.
 - [ ] BaseException 에러는 로깅되고 Exception 과 TEST 를 생성하려 합니다.
