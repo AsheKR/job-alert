@@ -185,6 +185,8 @@ class RocketPunchCrawler:
         url = soup_job_detail.select_one('.job-title').attrs.get('href')
         title = soup_job_detail.select_one('.job-title').text
 
+        job_stats_info = getattr(soup_job_detail.select_one('.job-stats-info'), 'text', '')
+
         # TODO: Classification meta tag
         job_detail_date_meta_1 = getattr(soup_job_detail.select_one('.job-dates > span:nth-child(1)'), 'text', '').strip()
         job_detail_date_meta_2 = getattr(soup_job_detail.select_one('.job-dates > span:nth-child(2)'), 'text', '').strip()
@@ -193,5 +195,6 @@ class RocketPunchCrawler:
             'id': job_detail_id,
             'url': cls.BASE_URL + url,
             'title': title,
+            'stats_info': job_stats_info,
             'meta': [job_detail_date_meta_1, job_detail_date_meta_2],
         }
