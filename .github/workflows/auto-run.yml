@@ -27,6 +27,7 @@ jobs:
         if [ -f sources/requirements.txt ]; then pip install -r sources/requirements.txt; fi
 
     - name: Run Job Alert Script
+      working-directory: ./sources/app
       run: |
         python "run.py"
   
