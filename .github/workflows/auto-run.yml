@@ -17,7 +17,7 @@ jobs:
     steps:
 
       - name: Auto Rebase
-        uses: AsheKR/fork-sync@master
+        uses: AsheKR/fork-sync@ashes/v1.0.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           base: v1
