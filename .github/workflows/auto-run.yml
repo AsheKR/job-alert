@@ -15,31 +15,37 @@ jobs:
         python-version: [3.8]
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
-      with:
-        python-version: ${{ matrix.python-version }}
+      - env:
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        if [ -f sources/requirements.txt ]; then pip install -r sources/requirements.txt; fi
+      - name: Check Out Branch
+      - uses: actions/checkout@v2
+        with:
+          ref: v1
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
 
-    - name: Run Job Alert Script
-      working-directory: ./sources/app
-      run: |
-        python "run.py"
-  
-    - name: Commits
-      run: |
-        git config --local user.email "Auto@ashe.kr"
-        git config --local user.name "AutoJobAlert"
-        git add sources/app/targets
-        git commit -m "[CI] Update Latest Targets" -a | exit 0
-  
-    - name: Push Changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: v1
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f sources/requirements.txt ]; then pip install -r sources/requirements.txt; fi
+
+      - name: Run Job Alert Script
+        working-directory: ./sources/app
+        run: |
+          python "run.py"
+
+      - name: Commits
+        run: |
+          git config --local user.email "Auto@ashe.kr"
+          git config --local user.name "AutoJobAlert"
+          git add sources/app/targets
+          git commit -m "[CI] Update Latest Targets" -a | exit 0
+
+      - name: Push Changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: v1
