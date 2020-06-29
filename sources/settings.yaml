@@ -1,3 +1,4 @@
+from_email: hr@ashe.kr
 to_email:
   - tech@ashe.kr
 

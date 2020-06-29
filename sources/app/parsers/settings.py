@@ -32,5 +32,9 @@ class SettingParser:
         return self.config.get('keyword')
 
     @property
+    def from_email(self):
+        return self.config.get('from_email')
+
+    @property
     def to_emails(self):
         return self.config.get('to_email')

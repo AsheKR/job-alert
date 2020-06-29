@@ -19,6 +19,7 @@ def get_results():
 
     search_engines = settings.search_engines
     keywords = settings.keywords
+    from_email = settings.from_email
     to_emails = settings.to_emails
 
     results = []
@@ -60,7 +61,7 @@ def get_results():
             sub_title='일간 신규 채용 정보',
             results=results,
         )
-        send_grid = SendGrid(from_email='hr@ashe.kr', to_email=to_emails)
+        send_grid = SendGrid(from_email=from_email, to_email=to_emails)
         send_grid.send(subject=subject, content=html)
 
 
