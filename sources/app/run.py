@@ -41,28 +41,24 @@ def get_results():
                 })
 
             # TODO: 문제가 있다면 실패해도 기록하게 된다는 점?
-            # crawler.write_latest_company_id_to_file()
+            crawler.write_latest_company_id_to_file()
             results.append(result)
 
-    env = Environment(
-        loader=FileSystemLoader(['templates', 'static']),
-    )
-    template = env.get_template('index.html')
+    if sum(result['count'] for result in results):
+        env = Environment(
+            loader=FileSystemLoader(['templates', 'static']),
+        )
+        template = env.get_template('index.html')
 
-    subject = f'{datetime.now().month}월 {datetime.now().day}일 Daily Haxim'
+        subject = f'{datetime.now().month}월 {datetime.now().day}일 Daily Haxim'
 
-    html = template.render(
-        title=subject,
-        sub_title='일간 신규 채용 정보',
-        results=results,
-    )
-
-    with open('sample.html', 'w') as f:
-        f.write(html)
-
-    # if sum(result['count'] for result in results):
-    #     send_grid = SendGrid(from_email='hr@ashe.kr', to_email=to_emails)
-    #     send_grid.send(subject=subject, content=html)
+        html = template.render(
+            title=subject,
+            sub_title='일간 신규 채용 정보',
+            results=results,
+        )
+        send_grid = SendGrid(from_email='hr@ashe.kr', to_email=to_emails)
+        send_grid.send(subject=subject, content=html)
 
 
 def main():
