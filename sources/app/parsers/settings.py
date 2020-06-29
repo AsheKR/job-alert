@@ -22,3 +22,15 @@ class SettingParser:
                 self._config = yaml.load(target_file, Loader=yaml.SafeLoader)
 
         return self._config
+
+    @property
+    def search_engines(self):
+        return self.config.get('search_engine')
+
+    @property
+    def keywords(self):
+        return self.config.get('keyword')
+
+    @property
+    def to_emails(self):
+        return self.config.get('to_email')
