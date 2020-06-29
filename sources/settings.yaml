@@ -1,4 +1,8 @@
-rocket_punch:
-  keywords:
-    - django
-    - ai
+to_email:
+  - tech@ashe.kr
+
+search_engine:
+  - rocket_punch
+
+keyword:
+  - django
