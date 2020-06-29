@@ -17,12 +17,13 @@ jobs:
     steps:
 
       - name: Auto Rebase
-        uses: TG908/fork-sync@v1.1
+        uses: AsheKR/fork-sync@ashes/v1.0.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           base: v1
           head: master
           merge_method: rebase
+          ignore_fail: true
 
       - name: Check Out Branch
         uses: actions/checkout@v2
