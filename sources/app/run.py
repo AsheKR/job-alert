@@ -7,7 +7,10 @@ from schemas.company import CompanySchema
 from senders.send_grid import SendGrid
 
 SEARCH_ENGINES = {
-    'rocket_punch': (RocketPunchCrawler, )
+    'rocket_punch': {
+        'label': '로켓펀치',
+        'crawler': RocketPunchCrawler,
+    }
 }
 
 
@@ -28,14 +31,14 @@ def get_results():
         }
 
         for search_engine in search_engines:
-            crawler = SEARCH_ENGINES[search_engine][0](keywords=keyword.split(','))
+            crawler = SEARCH_ENGINES[search_engine]['crawler'](keywords=keyword.split(','))
             new_companies = crawler.get_new_companies()
 
             if new_companies:
                 result['count'] += len(new_companies)
                 schema = CompanySchema(many=True)
                 result['sites'].append({
-                    'type': search_engine,
+                    'type': SEARCH_ENGINES[search_engine]['label'],
                     'count': len(new_companies),
                     'companies': schema.load(new_companies)
                 })
