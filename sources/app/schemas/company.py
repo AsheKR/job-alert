@@ -5,6 +5,8 @@ class JobDetailSchema(Schema):
     id = fields.Number(required=True)
     title = fields.String(required=True)
 
+    stats_info = fields.String()
+
     url = fields.URL(required=True)
 
     meta = fields.List(fields.String())
