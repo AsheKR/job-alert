@@ -1,0 +1,12 @@
+<hr class="hr-medium"/>
+<div class="company-meta-title">
+    <strong>검색 사이트: {{ site['type'] }}</strong>
+    <small class="result-count">{{ site['count'] }} 개</small>
+</div>
+<div class="companies">
+    {% for company in site['companies'] %}
+    {% with company=company %}
+        {% include 'company.html' %}
+    {% endwith  %}
+    {% endfor %}
+</div>

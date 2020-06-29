@@ -1,0 +1,35 @@
+<table class="company-table">
+    <tbody>
+    <tr class="align-top">
+        <td class="m-0" style="width: 100px">
+            <a href="{{ company['url'] }}" target="_blank" class="text-decoration-none">
+                <div style="background-image: url({{ company['logo_url'] }});"
+                     class="company-logo"></div>
+            </a>
+        </td>
+        <td class="m-0 pl-20">
+            <div class="company-title">
+                <a href="{{ company['url'] }}" class="text-decoration-none">
+                    {{ company['name'] }}
+                    <small class="text-black">{{ company['sub_name'] }}</small>
+                </a>
+            </div>
+            <div class="company-description">
+                <p class="company-description--title">
+                    {{ company['description'] }}
+                </p>
+                <p class="company-description--meta-tag">
+                    {{ company['meta'] }}
+                </p>
+            </div>
+            <div class="job-details">
+                {% for job_detail in company['job_details'] %}
+                {% with job_detail=job_detail %}
+                    {% include 'job_detail.html' %}
+                {% endwith %}
+                {% endfor %}
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>

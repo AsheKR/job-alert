@@ -1,0 +1,19 @@
+/* JobDetail */
+.job-detail-header {
+    font-size: 14px;
+
+    display: flex;
+    align-items: center;
+}
+
+.job-detail-header--meta {
+    font-size: 12px;
+    color: #999;
+
+    padding-left: 10px;
+}
+
+.job-detail-meta {
+    font-size: 12px;
+    color: #999;
+}

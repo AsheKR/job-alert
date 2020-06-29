@@ -1,0 +1,10 @@
+/* Result */
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.result-header > h3 {
+    margin: 0;
+}

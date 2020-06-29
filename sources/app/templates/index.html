@@ -1,0 +1,43 @@
+<html lang="ko">
+<head>
+    <meta name="viewport" content="width=device-width"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Ashe | {{ title }}</title>
+    <style type="text/css">
+        {% include 'base.css' %}
+        {% include 'result.css' %}
+        {% include 'company.css' %}
+        {% include 'job_detail.css' %}
+        {% include 'footer.css' %}
+    </style>
+</head>
+<body>
+<table>
+    <tbody>
+    <tr>
+        <td>
+
+            <!-- title -->
+            {% with title=title, sub_title=sub_title %}
+                {% include 'title.html' %}
+            {% endwith %}
+
+            <hr class="hr-large"/>
+
+            <!-- content -->
+            <div class="results">
+                {% for result in results %}
+                    {% with result=result %}
+                        {% include 'result.html' %}
+                    {% endwith %}
+                {% endfor %}
+            </div>
+
+            <!-- Footer -->
+            {% include 'footer.html' %}
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
