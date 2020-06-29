@@ -20,6 +20,11 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: v1
+          
+      - name: Auto Rebase
+        uses: peter-evans/rebase@v1
+        with:
+          base: master
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
