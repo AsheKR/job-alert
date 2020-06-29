@@ -22,9 +22,13 @@ jobs:
           ref: v1
           
       - name: Auto Rebase
-        uses: peter-evans/rebase@v1
+        uses: TG908/fork-sync@v1.1
         with:
-          base: master
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          owner: AsheKR
+          base: v1
+          head: master
+          merge_method: rebase
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
