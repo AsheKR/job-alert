@@ -72,7 +72,7 @@ def get_results():
                     })
 
                 # TODO: 문제가 있다면 실패해도 기록하게 된다는 점?
-                # crawler.write_latest_company_id_to_file()
+                crawler.write_latest_company_id_to_file()
             results.append(result)
 
         if sum(result['count'] for result in results):
