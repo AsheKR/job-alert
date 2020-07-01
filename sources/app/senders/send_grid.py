@@ -52,7 +52,7 @@ class SendGrid:
                 'send_grid API 를 사용하기 위해서는 prepare_data 에 title 를 제공해야합니다.'
             )
 
-        self._content = self.result_parser.parse(results, title=self._title)
+        self._content = self.result_parser.parse(results, title=self._title, sub_title='일간 신규 채용 알리미')
 
     def send(self):
         mail = Mail(
