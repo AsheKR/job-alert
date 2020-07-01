@@ -1,4 +1,5 @@
 import os
+from typing import List
 
 import yaml
 
@@ -24,17 +25,17 @@ class SettingParser:
         return self._config
 
     @property
-    def search_engines(self):
-        return self.config.get('search_engine')
+    def extensions(self) -> dict:
+        return self.config.get('extensions')
 
     @property
-    def keywords(self):
-        return self.config.get('keyword')
+    def search_engines(self) -> dict:
+        return self.extensions.get('search_engines')
 
     @property
-    def from_email(self):
-        return self.config.get('from_email')
+    def channels(self) -> dict:
+        return self.extensions.get('channels')
 
     @property
-    def to_emails(self):
-        return self.config.get('to_email')
+    def users(self) -> List[dict]:
+        return self.config.get('users')
