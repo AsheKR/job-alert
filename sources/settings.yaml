@@ -2,7 +2,7 @@ extensions:
   search_engines:
     rocket_punch: {}
     wanted: {}
-  channels:
+  senders:
     slack: {}
     send_grid:
       sender: hr@ashe.kr
@@ -12,7 +12,7 @@ users:
     search_engines:
       rocket_punch: {}
       wanted: {}
-    channels:
+    senders:
       send_grid:
         recipient:
           - tech@ashe.kr

@@ -18,7 +18,7 @@ SEARCH_ENGINES = {
     },
 }
 
-CHANNELS = {
+SENDERS = {
     'send_grid': {
         'label': '이메일 ( SENDGRID )',
         'sender': SendGrid,
@@ -31,14 +31,14 @@ def get_results():
     settings = SettingParser()
 
     available_search_engines = settings.search_engines.keys()
-    available_channels = settings.channels.keys()
+    available_senders = settings.senders.keys()
     users = settings.users
 
     results = []
 
     for user in users:
         search_engines = user.get('search_engines').keys()
-        channels = user.get('channels')
+        senders = user.get('senders')
         keywords = user.get('keywords')
 
         for keyword in keywords:
@@ -76,14 +76,14 @@ def get_results():
             results.append(result)
 
         if sum(result['count'] for result in results):
-            for channel, options in channels.items():
-                if channel not in available_channels:
+            for sender, options in senders.items():
+                if sender not in available_senders:
                     raise ValueError(
-                        f'{channel} 전송 방식은 제공되지 않습니다.\n'
-                        f'제공 목록: [{",".join(available_channels)}]'
+                        f'{sender} 전송 방식은 제공되지 않습니다.\n'
+                        f'제공 목록: [{",".join(available_senders)}]'
                     )
 
-                sender = CHANNELS[channel]['sender'](options={**options, **settings.channels[channel]}, result_parser=CHANNELS[channel]['parser'])
+                sender = SENDERS[sender]['sender'](options={**options, **settings.senders[sender]}, result_parser=SENDERS[sender]['parser'])
                 sender.prepare_data(results, title=f'{datetime.now().month}월 {datetime.now().day}일 Daily Haxim')
                 sender.send()
 

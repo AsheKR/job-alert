@@ -41,7 +41,7 @@ extensions:  # 사용 가능한 확장팩 및 공통 설정을 나열하는 설�
     search_engines:  # 사용 가능한 검색 엔진
       rocket_punch: {}
       wanted: {}
-    channels:  # 사용한 결과를 전송할 수단
+    senders:  # 사용한 결과를 전송할 수단
     slack: {}
     send_grid:
       sender: <email>  # 결과를 전송할 이메일 주소
@@ -51,7 +51,7 @@ users:
     search_engines:  # 검색엔진으로 사용할 설정 
       rocket_punch: {}
       wanted: {}
-    channels:
+    senders:
       send_grid:
         recipient:
           - tech@ashe.kr

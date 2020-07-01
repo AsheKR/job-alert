@@ -33,8 +33,8 @@ class SettingParser:
         return self.extensions.get('search_engines')
 
     @property
-    def channels(self) -> dict:
-        return self.extensions.get('channels')
+    def senders(self) -> dict:
+        return self.extensions.get('senders')
 
     @property
     def users(self) -> List[dict]:
