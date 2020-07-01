@@ -37,19 +37,27 @@
 `sources/settings.yaml` 파일을 통해 크롤러의 설정 값을 변경 할 수 있다.
 
 ```yaml
-# 이메일 발송 설정
-from_email: <발송처>  # 발송처의 경우 SENDGRID 에 등록된 도메인이여야 하고, SENDGRID_API_KEY 가 필요하다.
-to_email:
-    - <발신인1>
-    - <발신인2>
-
-search_engine:  # 검색 엔진을 선택하는 설정
-    - rocket_punch
-    - wanted
-
-keyword:
-    - <keyword1>
-    - <keyword2>
+extensions:  # 사용 가능한 확장팩 및 공통 설정을 나열하는 설정
+    search_engines:  # 사용 가능한 검색 엔진
+      rocket_punch: {}
+      wanted: {}
+    channels:  # 사용한 결과를 전송할 수단
+    slack: {}
+    send_grid:
+      sender: <email>  # 결과를 전송할 이메일 주소
+ 
+users:
+  - user: <username>  # 설정을 저장할 유저의 이름
+    search_engines:  # 검색엔진으로 사용할 설정 
+      rocket_punch: {}
+      wanted: {}
+    channels:
+      send_grid:
+        recipient:
+          - tech@ashe.kr
+    keywords:  # 검색어로 지정할 것
+      - django,ai  # 여러 태그를 AND 검색 하고싶다면 콤마로 구분한다. 
+      - other_tag
 ```
 
 ## How Does it Work?
