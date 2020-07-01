@@ -20,16 +20,19 @@ class BaseCrawler:
 
     def __init__(self, keywords: List[str] = None):
         assert self.BASE_URL is not None, (
-            '크롤링 할 BASE_URL 을 제공해야합니다.',
+            '크롤링 할 BASE_URL 을 제공해야 합니다.',
         )
         assert self.SEARCH_PATH is not None, (
-            '검색 할 BASE_SEARCH_URL 을 제공해야합니다',
+            '검색 할 BASE_SEARCH_URL 을 제공해야 합니다',
         )
         assert self.TARGET_FILE_NAME is not None, (
-            '저장 할 파일의 TARGET_FILE_NAME 을 입력해야합니다.',
+            '저장 할 파일의 TARGET_FILE_NAME 을 제공해야 합니다.',
         )
         assert self.KEYWORD_NAME is not None, (
             '검색 시 키워드로 사용할 KEYWORD_NAME 을 제공해야 합니다.',
+        )
+        assert self.DEFAULT_QUERY_STRING is not None, (
+            '정렬에 사용할 기본 DEFAULT_QUERY_STRING 을 제공해야 합니다.',
         )
 
         # inner Controlled Data
