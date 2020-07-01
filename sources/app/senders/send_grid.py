@@ -2,6 +2,7 @@ import os
 from typing import List
 
 import sendgrid
+from python_http_client import BadRequestsError
 from sendgrid import Email, To, Mail
 
 from parsers import BaseParser
@@ -20,8 +21,8 @@ class SendGrid:
 
         self.result_parser = result_parser
 
-        self.from_email = Email(options.get('from_email'))
-        self.to_email = To(options.get('to_email'))
+        self.from_email = Email(options.get('sender'))
+        self.to_email = To(options.get('recipient'))
 
         self._content = None
         self._title = None
@@ -42,7 +43,7 @@ class SendGrid:
                 'title 을 호출하기 전 반드시 prepare_data 가 호출되어야합니다.'
             )
 
-        return self._content
+        return self._title
 
     def prepare_data(self, results: List[dict], **kwargs):
         self._title = kwargs.get('title')
