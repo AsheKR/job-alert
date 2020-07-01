@@ -1,9 +1,8 @@
 from datetime import datetime
 
-from jinja2 import Environment, FileSystemLoader
-
 from crawlers.rocket_punch import RocketPunchCrawler
 from crawlers.wanted import WantedCrawler
+from parsers.results import HTMLResultParser
 from parsers.settings import SettingParser
 from schemas.company import CompanySchema
 from senders.send_grid import SendGrid
@@ -19,61 +18,74 @@ SEARCH_ENGINES = {
     },
 }
 
+SENDERS = {
+    'send_grid': {
+        'label': '이메일 ( SENDGRID )',
+        'sender': SendGrid,
+        'parser': HTMLResultParser,
+    }
+}
+
 
 def get_results():
     settings = SettingParser()
 
-    search_engines = settings.search_engines
-    keywords = settings.keywords
-    from_email = settings.from_email
-    to_emails = settings.to_emails
+    available_search_engines = settings.search_engines.keys()
+    available_senders = settings.senders.keys()
+    users = settings.users
 
     results = []
 
-    for keyword in keywords:
-        result = {
-            'keyword': keyword,
-            'count': 0,
-            'sites': [],
-        }
+    for user in users:
+        search_engines = user.get('search_engines').keys()
+        senders = user.get('senders')
+        keywords = user.get('keywords')
 
-        for search_engine in search_engines:
-            if not SEARCH_ENGINES.get(search_engine):
-                raise ValueError(
-                    f'{search_engine} 검색은 제공되지 않습니다.\n'
-                    f'제공 목록: [{",".join(SEARCH_ENGINES.keys())}]'
-                )
-            crawler = SEARCH_ENGINES[search_engine]['crawler'](keywords=keyword.split(','))
-            new_companies = crawler.get_new_companies()
+        for keyword in keywords:
+            result = {
+                'keyword': keyword,
+                'count': 0,
+                'sites': [],
+            }
 
-            if new_companies:
-                result['count'] += len(new_companies)
-                schema = CompanySchema(many=True)
-                result['sites'].append({
-                    'type': SEARCH_ENGINES[search_engine]['label'],
-                    'count': len(new_companies),
-                    'companies': schema.load(new_companies)
-                })
+            for search_engine in search_engines:
+                if search_engine not in available_search_engines:
+                    raise ValueError(
+                        f'{search_engine} 검색은 제공되지 않습니다.\n'
+                        f'제공 목록: [{",".join(available_search_engines)}]'
+                    )
+                if not SEARCH_ENGINES.get(search_engine):
+                    raise ValueError(
+                        f'{search_engine} 검색은 제공되지 않습니다.\n'
+                        f'제공 목록: [{",".join(SEARCH_ENGINES.keys())}]'
+                    )
+                crawler = SEARCH_ENGINES[search_engine]['crawler'](keywords=keyword.split(','))
+                new_companies = crawler.get_new_companies()
 
-            # TODO: 문제가 있다면 실패해도 기록하게 된다는 점?
-            crawler.write_latest_company_id_to_file()
-        results.append(result)
+                if new_companies:
+                    result['count'] += len(new_companies)
+                    schema = CompanySchema(many=True)
+                    result['sites'].append({
+                        'type': SEARCH_ENGINES[search_engine]['label'],
+                        'count': len(new_companies),
+                        'companies': schema.load(new_companies)
+                    })
 
-    if sum(result['count'] for result in results):
-        env = Environment(
-            loader=FileSystemLoader(['templates', 'static']),
-        )
-        template = env.get_template('index.html')
+                # TODO: 문제가 있다면 실패해도 기록하게 된다는 점?
+                crawler.write_latest_company_id_to_file()
+            results.append(result)
 
-        subject = f'{datetime.now().month}월 {datetime.now().day}일 Daily Haxim'
+        if sum(result['count'] for result in results):
+            for sender, options in senders.items():
+                if sender not in available_senders:
+                    raise ValueError(
+                        f'{sender} 전송 방식은 제공되지 않습니다.\n'
+                        f'제공 목록: [{",".join(available_senders)}]'
+                    )
 
-        html = template.render(
-            title=subject,
-            sub_title='일간 신규 채용 정보',
-            results=results,
-        )
-        send_grid = SendGrid(from_email=from_email, to_email=to_emails)
-        send_grid.send(subject=subject, content=html)
+                sender = SENDERS[sender]['sender'](options={**options, **settings.senders[sender]}, result_parser=SENDERS[sender]['parser'])
+                sender.prepare_data(results, title=f'{datetime.now().month}월 {datetime.now().day}일 Daily Haxim')
+                sender.send()
 
 
 def main():

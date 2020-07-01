@@ -1,10 +1,20 @@
-from_email: hr@ashe.kr
-to_email:
-  - tech@ashe.kr
+extensions:
+  search_engines:
+    rocket_punch: {}
+    wanted: {}
+  senders:
+    slack: {}
+    send_grid:
+      sender: hr@ashe.kr
 
-search_engine:
-  - rocket_punch
-  - wanted
-
-keyword:
-  - django
+users:
+  - user: Ashe
+    search_engines:
+      rocket_punch: {}
+      wanted: {}
+    senders:
+      send_grid:
+        recipient:
+          - tech@ashe.kr
+    keywords:
+      - django
