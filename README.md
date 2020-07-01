@@ -73,7 +73,15 @@ Github CI 에 스케쥴로 등록되어 자동으로 신규 채용건을 수집�
 `NotImplementError`, `assert` 로 실패하는 것들을 찾아 구현한다.
 
 크롤러를 구현했으면 `sources/app/run.py` 의 `SEARCH_ENGINES` 의 형식에 맞춰 크롤러를 넣어준다.
-이후부터 해당 크롤러를 동작시키기 위해 `settings.yaml` 의 `search_engine` 에 `SEARCH_ENGINS` 의 키를 넣는다.
+이후부터 해당 크롤러를 동작시키기 위해 `settings.yaml` 의 `extensions` 에 `search_engine` 의 키를 넣는다.
+
+## 새 센더를 추가하는 법
+
+`sources/app/senders/__init__.py` 파일의 `BaseSender` 를 상속하여 크롤러를 생성한다.
+`NotImplementError`, `assert` 로 실패하는 것들을 찾아 구현한다.
+
+크롤러를 구현했으면 `sources/app/run.py` 의 `SENDERS` 의 형식에 맞춰 크롤러를 넣어준다.
+이후부터 해당 센더를 동작시키기 위해 `settings.yaml` 의 `extensions` 에 `senders` 의 키를 넣는다.
 
 ## 알림 시간을 변경하는 법
 
