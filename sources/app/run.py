@@ -5,6 +5,7 @@ from crawlers.wanted import WantedCrawler
 from parsers.results import HTMLResultParser
 from parsers.settings import SettingParser
 from schemas.company import CompanySchema
+from senders.html import HTMLDebugOutputSender
 from senders.send_grid import SendGrid
 
 SEARCH_ENGINES = {
@@ -19,15 +20,20 @@ SEARCH_ENGINES = {
 }
 
 SENDERS = {
+    'html_output': {
+        'label': 'HTML',
+        'sender': HTMLDebugOutputSender,
+        'parser': HTMLResultParser,
+    },
     'send_grid': {
         'label': '이메일 ( SENDGRID )',
         'sender': SendGrid,
         'parser': HTMLResultParser,
-    }
+    },
 }
 
 
-def get_results():
+def main():
     settings = SettingParser()
 
     available_search_engines = settings.search_engines.keys()
@@ -83,13 +89,10 @@ def get_results():
                         f'제공 목록: [{",".join(available_senders)}]'
                     )
 
-                sender = SENDERS[sender]['sender'](options={**options, **settings.senders[sender]}, result_parser=SENDERS[sender]['parser'])
+                sender = SENDERS[sender]['sender'](options={**options, **settings.senders[sender]},
+                                                   result_parser=SENDERS[sender]['parser'])
                 sender.prepare_data(results, title=f'{datetime.now().month}월 {datetime.now().day}일 Daily Haxim')
                 sender.send()
-
-
-def main():
-    get_results()
 
 
 if __name__ == '__main__':
