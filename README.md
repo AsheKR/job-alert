@@ -42,9 +42,9 @@ extensions:  # 사용 가능한 확장팩 및 공통 설정을 나열하는 설�
       rocket_punch: {}
       wanted: {}
     senders:  # 사용한 결과를 전송할 수단
-    slack: {}
-    send_grid:
-      sender: <email>  # 결과를 전송할 이메일 주소
+      slack: {}
+      send_grid:
+        sender: <email>  # 결과를 전송할 이메일 주소
  
 users:
   - user: <username>  # 설정을 저장할 유저의 이름
