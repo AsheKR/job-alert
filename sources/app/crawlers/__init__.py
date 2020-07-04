@@ -1,5 +1,5 @@
 import os
-from typing import List
+from typing import List, Optional
 
 
 class BaseCrawler:
@@ -91,7 +91,7 @@ class BaseCrawler:
         """
         self._keywords.extend(keywords)
 
-    def get_latest_company_id_from_file(self) -> str:
+    def get_latest_company_id_from_file(self) -> Optional[int]:
         """
         이전에 검색한 결과 중 가장 최신의 ID 를 파일로부터 가져오는 메서드
 
@@ -107,9 +107,12 @@ class BaseCrawler:
         else:
             latest_company_id = ''
 
-        return latest_company_id
+        try:
+            return int(latest_company_id)
+        except ValueError:
+            return None
 
-    def get_latest_company_id_from_api(self) -> str:
+    def get_latest_company_id_from_api(self) -> Optional[int]:
         """
         검색한 결과 중 가장 최신의 ID 를 가져오는 메서드
         """
@@ -118,7 +121,10 @@ class BaseCrawler:
                 f'크롤러로 가져온 결과가 존재하지 않습니다.'
             )
 
-        return self.companies[0].get('id')
+        try:
+            return self.companies[0].get('id')
+        except ValueError:
+            return None
 
     def get_new_companies(self) -> List[dict]:
         latest_company_id_from_file = self.get_latest_company_id_from_file()
@@ -136,7 +142,7 @@ class BaseCrawler:
 
         for company in self.companies:
             # ID 가 동일한 것이 있을 때까지 신규 등록 공고.
-            if company.get('id') == latest_company_id_from_file:
+            if int(company.get('id')) == latest_company_id_from_file:
                 break
             new_companies.append(company)
 
