@@ -32,6 +32,16 @@
 | ------------------------------------ | -------------------------------------------- | ------------------------- |
 | SENDGRID_API_KEY                     |  n/a                                         | raise error               |
 
+## 설치 및 실행 방법
+
+```shell script
+git clone https://github.com/AsheKR/job-alert.git
+
+pip install -r sources/requirements.txt
+
+python run.py
+```
+
 ## Settings
 
 `sources/settings.yaml` 파일을 통해 크롤러의 설정 값을 변경 할 수 있다.
@@ -59,6 +69,38 @@ users:
     keywords:  # 검색어로 지정할 것
       - django,ai  # 여러 태그를 AND 검색 하고싶다면 콤마로 구분한다. 
       - other_tag
+```
+
+## 개발 환경
+
+| TYPE          | SPEC                  |
+| ------------- | --------------------- |
+| OS            | macOS Mojave 10.14.6  |
+| Python        | Python 3.8.2          |
+| Pyenv         | 1.2.17                |
+| Pip           | Pip 19.2.3            |
+
+## 프로젝트 구조
+
+트리모양의 프로젝트 구조를 를 가져올 때는 [exa](https://github.com/ogham/exa) 라이브러리를 사용했습니다.
+
+```text
+.                               # 루트는 git 과 관련된 설정
+├── assets                  # github 에서 사용하는 이미지를 담아두는 폴더
+├── licenses                # license 관련한 폴더
+└── sources                     # Python 앱의 설정이나 코드 관리 설정
+   ├── app                      # Python 실행 코드
+   │  ├── crawlers
+   │  ├── parsers
+   │  ├── schemas
+   │  ├── senders
+   │  ├── static            # HTML 에서 사용되는 리소스
+   │  ├── targets           # 크롤러 실행 시 파일을 기록하는 장소
+   │  ├── templates         # HTML 을 만들 때 사용하는 코드
+   │  ├── test
+   │  └──run.py             # 실행 스크립트
+   ├── requirements.txt
+   └── settings.yaml        # 실행 설정
 ```
 
 ## How Does it Work?
@@ -132,6 +174,36 @@ SEARCH_ENGINES = {
 
 크롤러를 구현했으면 `sources/app/run.py` 의 `SENDERS` 의 형식에 맞춰 크롤러를 넣어준다.
 이후부터 해당 센더를 동작시키기 위해 `settings.yaml` 의 `extensions` 에 `senders` 의 키를 넣는다.
+
+## DEBUG Setting 
+
+### 1. search_engines DEBUG
+
+`extensions - search_engines` 에 debug 를 주면 신규 채용건만 가져오는 것이 아니라 모든 채용건을 가져오도록한다.
+
+```yaml
+extensions:
+  search_engines:
+    debug: {}
+    rocket_punch: {}
+    wanted: {}
+
+users:
+  - user: Ashe
+    search_engins:
+      rocket_punch: {}
+      wanted: {}
+```
+
+### 2. sender DEBUG
+
+`extensions - senders` 에 debug 를 주면 다른 곳으로 전송하지 않고 `debug.html` 파일로 결과를 보여준다.
+
+```yaml
+extensions:
+  senders:
+    debug: {}
+```
 
 ## 알림 시간을 변경하는 법
 
