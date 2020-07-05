@@ -91,7 +91,7 @@ class RocketPunchCrawler(BaseCrawler):
             'sub_name': sub_name,
             'thumb_up_count': thumb_up_count,
             'description': description,
-            'meta': meta,
+            'meta': [meta],
             'job_details': job_details,
         }
 
@@ -101,7 +101,8 @@ class RocketPunchCrawler(BaseCrawler):
         url = soup_job_detail.select_one('.job-title').attrs.get('href')
         title = soup_job_detail.select_one('.job-title').text
 
-        job_stats_info = getattr(soup_job_detail.select_one('.job-stats-info'), 'text', '')
+        job_stat_info = [item.strip() for item in
+                         getattr(soup_job_detail.select_one('.job-stat-info'), 'text', '').split('/')]
 
         # TODO: Classification meta tag
         job_detail_date_meta_1 = getattr(soup_job_detail.select_one('.job-dates > span:nth-child(1)'), 'text',
@@ -113,6 +114,5 @@ class RocketPunchCrawler(BaseCrawler):
             'id': job_detail_id,
             'url': cls.BASE_URL + url,
             'title': title,
-            'stats_info': job_stats_info,
-            'meta': [job_detail_date_meta_1, job_detail_date_meta_2],
+            'meta': [job_detail_date_meta_1, job_detail_date_meta_2] + job_stat_info,
         }
