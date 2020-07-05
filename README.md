@@ -106,7 +106,7 @@ Company 로 사용 가능한 스키마를 모아두는 곳이다.
 앞에서 만든 `TYPE_<사이트명>` 과 `<사이트명>CompanySchema` 를 `key: value` 로 담는다.
 
 
-### 크롤러 구현
+### 2. 크롤러 구현
 
 `sources/app/crawlers/__init__.py` 파일의 `BaseCrawler` 를 상속하여 크롤러를 생성한다.
 `NotImplementError`, `assert` 로 실패하는 것들을 찾아 구현한다.
