@@ -5,7 +5,9 @@ from senders import BaseSender
 
 
 class HTMLDebugOutputSender(BaseSender):
-    def __init__(self, options: dict, result_parser: BaseParser, output_file_name='debug.html'):
+    def __init__(self, result_parser: BaseParser, options: dict = None, output_file_name='debug.html'):
+        if options is None:
+            options = {}
         super().__init__(options, result_parser)
 
         self.output_file_name = output_file_name
