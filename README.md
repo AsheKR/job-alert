@@ -42,6 +42,7 @@ extensions:  # 사용 가능한 확장팩 및 공통 설정을 나열하는 설�
       rocket_punch: {}
       wanted: {}
     senders:  # 사용한 결과를 전송할 수단
+      html_output: {}  # 디버깅을 위한 sender
       slack: {}
       send_grid:
         sender: <email>  # 결과를 전송할 이메일 주소
@@ -69,11 +70,60 @@ Github CI 에 스케쥴로 등록되어 자동으로 신규 채용건을 수집�
 
 ## 새 크롤러를 추가하는 법
 
+### 0. 구성
+
+**`Company`**
+
+회사 관련 데이터를 가지고 있다.
+
+**`JobDetail`**
+
+채용 관련 데이터를 가지고 있다.
+
+### 1. 스키마 구현
+
+각 사이트마다 가지고 있는 고유 정보가 다르기 때문에 스키마를 따로 구현한다.
+BaseSchema 는 가능하면 채워서 보여주도록한다.
+
+**`schemas/__init__.py`**
+
+회사 명을 Static 하게 포함하고 있는 곳이다.
+`TYPE_<사이트명>` 타입을 추가한다.
+
+**`schemas/company/<사이트명>.py`**
+
+`schemas/company/base.py` 를 상속받아 회사 데이터를 채우는 `<사이트명>CompanySchema` 클래스를 생성한다.
+
+**`schemas/job_detail/<사이트명>.py`**
+
+`schemas/job_detail/base.py` 를 상속받아 채용 데이터를 채우는 `<사이트명>JobDetailSchema` 클래스를 생성한다.
+
+**`schemas/company/__init__.py`**
+
+Company 로 사용 가능한 스키마를 모아두는 곳이다.
+
+`schemas/company/<사이트명>.py` 를 구현했다면 `CompanyOneOfSchema` 의 `type_schemas` 에
+앞에서 만든 `TYPE_<사이트명>` 과 `<사이트명>CompanySchema` 를 `key: value` 로 담는다.
+
+
+### 크롤러 구현
+
 `sources/app/crawlers/__init__.py` 파일의 `BaseCrawler` 를 상속하여 크롤러를 생성한다.
 `NotImplementError`, `assert` 로 실패하는 것들을 찾아 구현한다.
 
-크롤러를 구현했으면 `sources/app/run.py` 의 `SEARCH_ENGINES` 의 형식에 맞춰 크롤러를 넣어준다.
-이후부터 해당 크롤러를 동작시키기 위해 `settings.yaml` 의 `extensions` 에 `search_engine` 의 키를 넣는다.
+### 3. 스키마, 크롤러 등록
+
+`run.py` 의 `SEARCH_ENGINES` 에 다음과 같은 형식을 추가한다.
+
+```text
+SEARCH_ENGINES = {
+    TYPE_<사이트명>: {
+        'label': '한글로 된 사이트명',
+        'crawler': <사이트명>Crawler,
+        'schema': 사이트명CompanySchema,
+    }
+}
+```
 
 ## 새 센더를 추가하는 법
 
