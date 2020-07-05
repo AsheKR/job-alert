@@ -4,18 +4,21 @@ from crawlers.rocket_punch import RocketPunchCrawler
 from crawlers.wanted import WantedCrawler
 from parsers.results import HTMLResultParser
 from parsers.settings import SettingParser
-from schemas.company import CompanySchema
+from schemas import TYPE_ROCKET_PUNCH, TYPE_WANTED
+from schemas.company import RocketPunchCompanySchema, WantedCompanySchema
 from senders.html import HTMLDebugOutputSender
 from senders.send_grid import SendGrid
 
 SEARCH_ENGINES = {
-    'rocket_punch': {
+    TYPE_ROCKET_PUNCH: {
         'label': '로켓펀치',
         'crawler': RocketPunchCrawler,
+        'schema': RocketPunchCompanySchema,
     },
-    'wanted': {
+    TYPE_WANTED: {
         'label': '원티드',
         'crawler': WantedCrawler,
+        'schema': WantedCompanySchema,
     },
 }
 
@@ -70,7 +73,7 @@ def main():
 
                 if new_companies:
                     result['count'] += len(new_companies)
-                    schema = CompanySchema(many=True)
+                    schema = SEARCH_ENGINES[search_engine]['schema'](many=True)
                     result['sites'].append({
                         'type': SEARCH_ENGINES[search_engine]['label'],
                         'count': len(new_companies),
@@ -78,7 +81,7 @@ def main():
                     })
 
                 # TODO: 문제가 있다면 실패해도 기록하게 된다는 점?
-                crawler.write_latest_company_id_to_file()
+                # crawler.write_latest_company_id_to_file()
             results.append(result)
 
         if sum(result['count'] for result in results):

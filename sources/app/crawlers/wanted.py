@@ -72,20 +72,39 @@ class WantedCrawler(BaseCrawler):
             'url': job.get('detail').get('job').get('short_link'),
             'logo_url': job.get('logo_img').get('thumb'),
             'name': job.get('company').get('name'),
-            'sub_name': '',
-            'thumb_up_count': job.get('like_count'),
-            'description': job.get('detail').get('job').get('detail').get('intro'),
-            'meta': ','.join([tag.get('title') for tag in job.get('detail').get('job').get('company_tags')]),
+            'description': '',
+            'meta': [tag.get('title') for tag in job.get('detail').get('job').get('company_tags')],
+
+            'industry_name': job.get('company').get('industry_name'),
+            'response_avg_rate': job.get('company').get('application_response_stats').get('avg_rate'),
+            'response_level': job.get('company').get('application_response_stats').get('level'),
+            'response_delayed_count': job.get('company').get('application_response_stats').get('delayed_count'),
+            'response_avg_day': job.get('company').get('application_response_stats').get('avg_day'),
+            'response_remained_count': job.get('company').get('application_response_stats').get('remained_count'),
+            'response_type': job.get('company').get('application_response_stats').get('type'),
+            'address': job.get('detail').get('job').get('address').get('full_location'),
+            'like_count': job.get('like_count'),
+
+            'images': [item.get('url') for item in job.get('detail').get('job').get('company_images')],
             'job_details': job_details,
         }
 
     @classmethod
     def parse_job_detail(cls, job: dict) -> dict:
+        meta = [f'{job.get("due_time")} 마감'] if job.get('due_time') else []
 
         return {
             'id': job.get('id'),
             'url': job.get('detail').get('job').get('short_link'),
             'title': job.get('position'),
-            'stats_info': '',
-            'meta': [job.get('due_time') or ''],
+            'meta': meta,
+
+            'formatted_total': job.get('detail').get('job').get('reward').get('formatted_total'),
+            'formatted_recommender': job.get('detail').get('job').get('reward').get('formatted_recommender'),
+            'formatted_recommendee': job.get('detail').get('job').get('reward').get('formatted_recommendee'),
+            'requirements': job.get('detail').get('job').get('detail').get('requirements'),
+            'main_tasks': job.get('detail').get('job').get('detail').get('main_tasks'),
+            'intro': job.get('detail').get('job').get('detail').get('intro'),
+            'benefits': job.get('detail').get('job').get('detail').get('benefits'),
+            'preferred_points': job.get('detail').get('job').get('detail').get('preferred_points'),
         }
