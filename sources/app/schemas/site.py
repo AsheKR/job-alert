@@ -1,18 +1,13 @@
-from marshmallow import Schema, fields, validate
+from marshmallow import Schema, fields
 
-from schemas.company import CompanySchema
+from schemas.company import CompanyOneOfSchema
 
 
 class SiteSchema(Schema):
-    TYPE_ROCKET_PUNCH = 'rocket_punch'
-    TYPE_CHOICES = (
-        TYPE_ROCKET_PUNCH,
-    )
-
     type = fields.String(
+        help_text='검색 사이트',
         required=True,
-        validate=validate.OneOf(choices=TYPE_CHOICES)
     )
-    count = fields.Number(required=True)
+    count = fields.Number(help_text='검색 결과 개수', required=True)
 
-    companies = fields.List(fields.Nested(CompanySchema))
+    companies = fields.List(fields.Nested(CompanyOneOfSchema), help_text='채용 회사')
