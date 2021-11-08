@@ -8,7 +8,7 @@ Jinja2==2.11.2
 
 # for Alert
 sendgrid==6.4.0
-starkbank-ecdsa==1.0.0
+starkbank-ecdsa==2.0.1
 
 # for model
 marshmallow==3.6.1
